@@ -4,7 +4,7 @@
 
 ## 核心计算
 
-最小二乘标曲必须满秩，空白扣除保留负值，浓度按稀释倍数复算；低于检出限保留限定符。
+最小二乘标曲必须满秩，空白按同稀释组配对扣除并保留负值，浓度按稀释倍数复算；检出限取空白组波动与样品倍数，低于检出限保留限定符。空白复测按修订序号登记，现行待复核批次随修订重算，已复核批次保留当时的空白、检出限和限定符。
 
 ## 启动
 
@@ -28,7 +28,7 @@ docker compose config --quiet
 
 ## 输入与输出
 
-CSV可用UTF-8或GB18030；上传保留字符串编号和物理行号。POST `/api/run` 接收 `text` 字段。`GET /api/runs` 查询历史，`POST /api/review` 接收 id、revision、decision。导出按钮下载唯一证据CSV，含运行摘要与隔离记录。
+CSV可用UTF-8或GB18030；上传保留字符串编号和物理行号。POST `/api/run` 接收 `text` 字段。`GET /api/runs` 查询历史，`POST /api/review` 接收 id、revision、decision。`POST /api/blank-revision` 登记空白复测（batch、analyte、revision、text），序号只增不退，同序号异值隔离，重办同一修订不新增结果。导出按钮下载唯一证据CSV，含运行摘要、空白配对、限定符、原批结论与隔离记录。
 
 SQLite命名卷保存运行记录。重建演示数据可更换卷名后重启。无需外部网络数据。规则定义见 `docs/DATA-DICTIONARY.md`；边界和测试对应关系见 `docs/DEPTH.md`。
 

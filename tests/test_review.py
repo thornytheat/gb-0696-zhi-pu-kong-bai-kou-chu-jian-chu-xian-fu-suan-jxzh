@@ -20,7 +20,7 @@ def test_review_curve_blocks():
     assert ready([{"status":"PASS"}],[{"status":"CURVE_RANK"}]) is False
 
 def test_review_balance_sample(result):
-    assert result["balance"]["input"]==66
+    assert result["balance"]["input"]==69
 
 def test_review_specific_result(result):
-    assert next(r for r in result["final"] if r["sample_id"]=="S002")["concentration"]=="2.0"
+    assert next(r for r in result["final"] if r["sample_id"]=="S002")["concentration"]=="2.10"

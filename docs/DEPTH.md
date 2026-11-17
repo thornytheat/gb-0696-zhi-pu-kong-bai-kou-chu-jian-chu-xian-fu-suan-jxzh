@@ -27,6 +27,20 @@
 | TRAP-14 | 业务键冲突 | 静默采信错误值 | 保留首条并隔离冲突 | `app/modules/m1_intake/rules.py` | `tests/test_intake.py::test_intake_conflicting_key` |
 | TRAP-15 | 单位混合 | 静默采信错误值 | 浓度单位归一 | `app/modules/m2_internal/rules.py` | `tests/test_internal.py::test_internal_units` |
 | TRAP-19 | 多个质控标记 | 静默采信错误值 | 显式优先级 | `app/modules/m6_quality/rules.py` | `tests/test_quality.py::test_quality_priority` |
+| TRAP-20 | 空白跨稀释混用 | 净浓度扣错空白中位数 | 同稀释组配对，缺组隔离 | `app/modules/m4_blank/rules.py` | `tests/test_revision.py::test_pairing_uses_same_dilution_group` |
+| TRAP-21 | 检出限与稀释脱节 | 低浓度与稀释样品误判 | 组波动×样品倍数 | `app/modules/m5_concentration/rules.py` | `tests/test_revision.py::test_lod_uses_group_spread_and_dilution` |
+| TRAP-22 | 同序号异值修订 | 静默覆盖现行空白 | 隔离冲突修订 | `app/revisions.py` | `tests/test_revision.py::test_same_revision_different_value_quarantined` |
+| TRAP-23 | 旧修订回退 | 现行结果倒退 | 拒绝旧序号 | `app/revisions.py` | `tests/test_revision.py::test_older_revision_not_rolled_back` |
+| TRAP-24 | 切换半途失败 | 部分样品用错空白 | 整批保留原结果并记录 | `app/revisions.py` | `tests/test_revision.py::test_switch_failure_keeps_original` |
+| TRAP-25 | 重办同一修订 | 重复结果与审计噪音 | 幂等不新增 | `app/revisions.py` | `tests/test_revision.py::test_same_revision_same_content_no_new_results` |
+
+## 空白修订
+
+| 机制 | 行为 | 核心文件 | 测试 |
+|---|---|---|---|
+| 修订登记 | 按批次+检测项+序号登记空白复测，序号只增 | `app/revisions.py` | `tests/test_revision.py` |
+| 现行重算 | 仅重算待复核批次，已复核批次保留当时空白/检出限/限定符 | `app/revisions.py` | `tests/test_revision.py::test_reviewed_run_keeps_snapshot` |
+| 接口 | `POST /api/blank-revision`，`GET /api/blank-revisions` | `app/main.py` | `tests/test_revision_api.py` |
 
 ## 对账规则
 

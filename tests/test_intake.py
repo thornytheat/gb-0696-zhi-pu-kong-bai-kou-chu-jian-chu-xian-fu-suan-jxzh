@@ -8,7 +8,7 @@ from decimal import Decimal
 import pytest
 
 def test_intake_sample_rows(result):
-    assert len(result["raw"])==62
+    assert len(result["raw"])==65
 
 def test_intake_encoding(sample):
     from app.reader import decode

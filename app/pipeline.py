@@ -11,8 +11,8 @@ from app.modules.m7_review.rules import apply as stage7
 def sample_text():
     return (Path(__file__).parent.parent/"sample_data"/"instrument.csv").read_text(encoding="utf-8-sig")
 
-def run(text):
-    ctx={"text":text,"quarantine":[],"reports":[]}
+def run(text,blank_revisions=None):
+    ctx={"text":text,"quarantine":[],"reports":[],"blank_revisions":blank_revisions or {}}
     ctx["reports"].append(stage1(ctx))
     ctx["reports"].append(stage2(ctx))
     ctx["reports"].append(stage3(ctx))
@@ -21,5 +21,6 @@ def run(text):
     ctx["reports"].append(stage6(ctx))
     ctx["reports"].append(stage7(ctx))
     ctx.pop("text",None)
+    ctx.pop("blank_revisions",None)
     ctx["reasons"]=reason_counts(ctx)
     return plain(ctx)

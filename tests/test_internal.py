@@ -9,7 +9,7 @@ from decimal import Decimal
 import pytest
 
 def test_internal_sample(result):
-    assert len(result["normalized"])==60
+    assert len(result["normalized"])==63
 
 def test_internal_fullwidth():
     assert response("１,２００","１００")==Decimal(12)

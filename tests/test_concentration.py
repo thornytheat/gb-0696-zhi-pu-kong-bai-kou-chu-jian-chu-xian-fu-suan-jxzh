@@ -20,7 +20,7 @@ def test_concentration_sample_unit(result):
     assert {r["unit"] for r in result["concentrations"]}=={"ug/L"}
 
 def test_concentration_sample_lod(result):
-    r=next(r for r in result["concentrations"] if r["sample_id"]=="S002");assert Decimal(r["lod"])==Decimal("0.10")
+    r=next(r for r in result["concentrations"] if r["sample_id"]=="S002");assert Decimal(r["lod"])==Decimal("0.150")
 
 def test_concentration_no_rounding():
     assert concentration(Decimal("0.333333"),Decimal(3))==Decimal("0.999999")
